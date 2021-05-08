@@ -1,15 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material/core';
+import {NgForm} from '@angular/forms';
+import {User} from '../user-model';
+import {UserServiceService} from '../user-service.service';
 
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
+  providers: [UserServiceService],
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() {
+  constructor(private userService: UserServiceService) {
   }
 
   ngOnInit(): void {
@@ -17,7 +19,9 @@ export class SignUpComponent implements OnInit {
 
   onSubmit(signUp: NgForm): void {
     if (signUp.valid) {
-      console.log(signUp.value);
+      const user = new User(signUp.value);
+      this.userService.signUp(user)
+        .subscribe(() => {});
     }
   }
 }

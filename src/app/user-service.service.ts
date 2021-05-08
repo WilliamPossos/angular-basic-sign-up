@@ -1,24 +1,31 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {User} from './user-model';
 
-interface User {
-  email: string;
-  password: string;
-}
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  })
+};
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UserServiceService {
-  sigInUrl = 'http://localhost:4000/';
+  sigInUrl = 'http://localhost:4000/sign-in';
+  sigInUp = 'http://localhost:4000/sign-up';
 
   constructor(private http: HttpClient) {
   }
 
   signIn(user: User): Observable<User> {
-    return this.http.post<User>(this.sigInUrl, user)
+    return this.http.post<User>(this.sigInUrl, user, httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  signUp(user: User): Observable<User> {
+    return this.http.post<User>(this.sigInUp, user, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
@@ -35,7 +42,7 @@ export class UserServiceService {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
-    // Return an observable with a user-facing error message.
+    // Return an observable with a user.ts-facing error message.
     return throwError(
       'Something bad happened; please try again later.');
   }

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import {User} from '../user-model';
+import {UserServiceService} from '../user-service.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -16,7 +18,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class SignInComponent implements OnInit {
 
-  constructor() {
+  constructor(private userService: UserServiceService) {
   }
 
   emailFormControl = new FormControl('', [
@@ -31,6 +33,9 @@ export class SignInComponent implements OnInit {
 
   onSubmit(signUp: NgForm): void {
     if (signUp.valid) {
+      const user = new User(signUp.value);
+      this.userService.signIn(user)
+        .subscribe(() => {});
     }
   }
 }
