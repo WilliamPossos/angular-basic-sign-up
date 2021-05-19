@@ -3,39 +3,30 @@ import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/form
 import {ErrorStateMatcher} from '@angular/material/core';
 import {User} from '../user-model';
 import {UserServiceService} from '../user-service.service';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+  styleUrls: ['./sign-in.component.css'],
+  providers: [UserServiceService]
 })
 export class SignInComponent implements OnInit {
 
-  constructor(private userService: UserServiceService) {
+  constructor(private userService: UserServiceService, private router: Router) {
   }
-
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
-  matcher = new MyErrorStateMatcher();
+  isFirstSignInAttempt = false;
 
   ngOnInit(): void {
   }
 
-  onSubmit(signUp: NgForm): void {
-    if (signUp.valid) {
-      const user = new User(signUp.value);
+  onSubmit(signIn: NgForm): void {
+    if (signIn.valid) {
+      const user = new User(signIn.value);
       this.userService.signIn(user)
-        .subscribe(() => {});
+        .subscribe(data => {
+          console.log(data);
+        });
     }
   }
 }

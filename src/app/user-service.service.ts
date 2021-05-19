@@ -1,19 +1,23 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {User} from './user-model';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS'
   })
 };
 
 @Injectable()
 export class UserServiceService {
-  sigInUrl = 'http://localhost:4000/sign-in';
-  sigInUp = 'http://localhost:4000/sign-up';
+  serviceUrl = 'https://j105nj8177.execute-api.us-east-1.amazonaws.com/default';
+  sigInUrl = `${this.serviceUrl}/sign-in`;
+  sigUpUrl = `${this.serviceUrl}/sign-up`;
+  verifyUrl = `${this.serviceUrl}/verify`;
 
   constructor(private http: HttpClient) {
   }
@@ -21,11 +25,21 @@ export class UserServiceService {
   signIn(user: User): Observable<User> {
     return this.http.post<User>(this.sigInUrl, user, httpOptions)
       .pipe(
+        map(data => {
+          localStorage.setItem('signInState', JSON.stringify(user));
+          return data;
+        }),
         catchError(this.handleError)
       );
   }
   signUp(user: User): Observable<User> {
-    return this.http.post<User>(this.sigInUp, user, httpOptions)
+    return this.http.post<User>(this.sigUpUrl, user, httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+  verify(user: User): Observable<User> {
+    return this.http.post<User>(this.verifyUrl, user, httpOptions)
       .pipe(
         catchError(this.handleError)
       );
