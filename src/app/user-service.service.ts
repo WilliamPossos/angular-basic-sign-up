@@ -7,13 +7,12 @@ import {User} from './user-model';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS'
   })
 };
 
 @Injectable()
 export class UserServiceService {
+  // serviceUrl = 'http://localhost:3000';
   serviceUrl = 'https://j105nj8177.execute-api.us-east-1.amazonaws.com/default';
   sigInUrl = `${this.serviceUrl}/sign-in`;
   sigUpUrl = `${this.serviceUrl}/sign-up`;
@@ -29,23 +28,23 @@ export class UserServiceService {
           localStorage.setItem('signInState', JSON.stringify(user));
           return data;
         }),
-        catchError(this.handleError)
+        catchError(UserServiceService.handleError)
       );
   }
   signUp(user: User): Observable<User> {
     return this.http.post<User>(this.sigUpUrl, user, httpOptions)
       .pipe(
-        catchError(this.handleError)
+        catchError(UserServiceService.handleError)
       );
   }
   verify(user: User): Observable<User> {
     return this.http.post<User>(this.verifyUrl, user, httpOptions)
       .pipe(
-        catchError(this.handleError)
+        catchError(UserServiceService.handleError)
       );
   }
 
-  private handleError(error: HttpErrorResponse): Observable<User> {
+  private static handleError(error: HttpErrorResponse): Observable<User> {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error);
