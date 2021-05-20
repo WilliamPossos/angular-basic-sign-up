@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CloudChallenge3';
+  showSignInBtn = false;
+  showSignUpBtn = true;
+  onSignIn = () => {
+    this.showSignInBtn = false;
+    this.showSignUpBtn = true;
+  }
+
+  private onSignUp = () => {
+    this.showSignInBtn = true;
+    this.showSignUpBtn = false;
+  }
 }

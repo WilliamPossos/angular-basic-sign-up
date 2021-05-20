@@ -1,3 +1,8 @@
+<div class="sign-in-buttons">
+  <button mat-raised-button color="primary" class="sign-in-btn" (click)="onSignIn()" *ngIf="showSignInBtn">Sign in</button>
+  <button mat-stroked-button color="accent" class="sign-up-btn" (click)="onSignUp()" *ngIf="showSignUpBtn">Sign Up</button>
+</div>
 <div class="center">
-  <router-outlet></router-outlet>
+  <app-sign-in *ngIf="!showSignInBtn"></app-sign-in>
+  <app-sign-up *ngIf="!showSignUpBtn"></app-sign-up>
 </div>

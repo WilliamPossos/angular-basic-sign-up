@@ -7,7 +7,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("src/black-orange.jpeg");
 }
 
 body {
@@ -27,4 +26,17 @@ body {
   background: white;
   width: 20rem;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+
+.sign-in-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1em;
+}
+
+.sign-in-btn {
+}
+
+.sign-up-btn {
 }
