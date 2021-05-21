@@ -40,3 +40,11 @@ body {
 
 .sign-up-btn {
 }
+
+.green-snackbar {
+  background: mediumseagreen;
+}
+
+.red-snackbar {
+  background: indianred;
+}

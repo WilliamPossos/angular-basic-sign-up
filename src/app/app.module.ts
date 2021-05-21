@@ -12,6 +12,7 @@ import {AppRoutingModule} from './app-routing/app-routing.module';
 import {MatButtonModule} from '@angular/material/button';
 import {HttpClientModule} from '@angular/common/http';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
         ReactiveFormsModule,
         MatInputModule,
         MatButtonModule,
+        MatSnackBarModule,
         AppRoutingModule,
         HttpClientModule
     ],
