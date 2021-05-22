@@ -11,8 +11,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  Success = 'Success sign in! ;)';
-  Access = 'Access';
+  Success = 'Success sign up! :D';
+  Accept = 'Accept';
   Error = 'Something went wrong';
   constructor(private userService: UserServiceService, private snackBar: MatSnackBar) {
   }
@@ -37,10 +37,10 @@ export class SignUpComponent implements OnInit {
       const user = new User(signUp.value);
       this.userService.signUp(user)
         .subscribe(success => {
-          this.openSuccessSnackBar(this.Success, this.Access);
+          this.openSuccessSnackBar(this.Success, this.Accept);
           window.location.reload();
         }, error => {
-          this.openErrorSnackBar(this.Error, this.Access);
+          this.openErrorSnackBar(this.Error, this.Accept);
         });
     }
   }

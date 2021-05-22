@@ -7,6 +7,8 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url("src/white-background.jpeg") no-repeat ;
+  background-size: cover;
 }
 
 body {

@@ -16,13 +16,14 @@ export class SignInComponent implements OnInit {
   }
 
   isFirstSignInAttempt = false;
+  isSuccessSignIn = false;
   CodeVerificationError = 'Code verification error';
   InvalidUserPasswordError = 'Invalid username or password';
   EmptyAttempts = 'EmptyAttempts';
   MaxFailedAttempts = 'MaxFailedAttempts';
-  Success = 'Success sign in! ;)';
-  Access = 'Access';
-  MaxAttemptsMessage = 'Maximum number of attempts exceeded';
+  Success = 'Success sign in!';
+  Accept = 'Accept';
+  MaxAttemptsMessage = 'Max. number of attempts exceeded';
 
   ngOnInit(): void {
   }
@@ -46,13 +47,13 @@ export class SignInComponent implements OnInit {
         this.userService.verify(user)
           .subscribe(data => {
               if (data.okMessage) {
-                this.openSuccessSnackBar(this.CodeVerificationError, this.Access);
+                this.onSuccess();
               } else {
-                this.openErrorSnackBar(this.InvalidUserPasswordError, this.Access);
+                this.openErrorSnackBar(this.InvalidUserPasswordError, this.Accept);
               }
             },
             () => {
-              this.openErrorSnackBar(this.CodeVerificationError, this.Access);
+              this.openErrorSnackBar(this.CodeVerificationError, this.Accept);
             });
       } else {
         this.userService.signIn(user)
@@ -62,17 +63,22 @@ export class SignInComponent implements OnInit {
               if (data.okMessage === this.EmptyAttempts) {
                 this.isFirstSignInAttempt = true;
               } else if (data.okMessage === this.MaxFailedAttempts) {
-                this.openErrorSnackBar(this.CodeVerificationError, this.Access);
+                this.openErrorSnackBar(this.MaxAttemptsMessage, this.Accept);
               } else {
-                this.openSuccessSnackBar(this.Success, this.Access);
+                this.onSuccess();
               }
             } else {
-              this.openErrorSnackBar(this.InvalidUserPasswordError, this.Access);
+              this.openErrorSnackBar(this.InvalidUserPasswordError, this.Accept);
             }
           }, () => {
-            this.openErrorSnackBar(this.InvalidUserPasswordError, this.Access);
+            this.openErrorSnackBar(this.InvalidUserPasswordError, this.Accept);
           });
       }
     }
+  }
+
+  private onSuccess(): void {
+    this.isSuccessSignIn = true;
+    this.openSuccessSnackBar(this.Success, this.Accept);
   }
 }
