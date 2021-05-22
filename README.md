@@ -6,6 +6,10 @@ The proposed AWS architecture is:
 
 ![AWS architecture](https://joiners-challenge.s3.amazonaws.com/aws-challenge-3.jpeg)
 
+## Site URL
+
+    `https://challenge-3.goodwilli.com/`
+
 ## Features
 
 - The front-end is built with angular
